@@ -145,7 +145,7 @@ $("#task-form-modal").on("shown.bs.modal", function () {
 });
 
 // save button in modal was clicked
-$("#task-form-modal .btn-primary").click(function () {
+$("#task-form-modal .btn-save").click(function () {
   // get form values
   var taskText = $("#modalTaskDescription").val();
   var taskDate = $("#modalDueDate").val();
@@ -181,16 +181,19 @@ $(".card .list-group").sortable({
   tolerance: 'pointer',
   helper: 'clone',
   activate: function (event) {
+    $(this).addClass("dropover");
+    $(".bottom-trash").addClass("bottom-trash-drag");
 
   },
   deactivate: function (event) {
-
+    $(this).removeClass("dropover");
+    $(".bottom-trash").removeClass("bottom-trash-drag");
   },
   over: function (event) {
-
+    $(event.target).addClass("dropover-active");
   },
   out: function (event) {
-
+    $(event.target).removeClass("dropover-active");
   },
   update: function (event) {
 
@@ -220,8 +223,8 @@ $(".card .list-group").sortable({
     // update array on tasks object and save
     tasks[arrName] = tempArr;
     saveTasks();
-
   }
+
 });
 
 // making droppable at bottom of html
@@ -231,13 +234,14 @@ $("#trash").droppable({
   drop: function (event, ui) {
     console.log("drop")
     ui.draggable.remove();
+    $(".bottom-trash").removeClass("bottom-trash-active");
   },
   over: function (event, ui) {
     console.log("over");
+    $(".bottom-trash").addClass("bottom-trash-active");
   },
   out: function (event, ui) {
-    console.log("out");
-
+    $(".bottom-trash").removeClass("bottom-trash-active");
   }
 });
 
